@@ -119,6 +119,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHelper.cpp" />
@@ -128,9 +129,11 @@
     <ClCompile Include="rand.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderSupport.cpp" />
+    <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicIncludes.h" />
+    <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GlobalStructures.h" />
     <ClInclude Include="Input.h" />
@@ -141,6 +144,7 @@
     <ClInclude Include="rand.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderSupport.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Typedefs.h" />
   </ItemGroup>
   <ItemGroup>

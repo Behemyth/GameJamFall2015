@@ -5,9 +5,6 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Object.h"
-#include "Terrain.h"
-#include "Anatomy.h"
-#include "GLDebugDrawer.h"
 
 
 //Function List
@@ -194,20 +191,7 @@ void Run() {
 		world->setGravity(btVector3(0, -9.82f*METER, 0));
 
 
-		Terrain terrain = Terrain(world, 200, seed);
-		Object* terrainP = &terrain;
-		objects.push_back(terrainP);
 
-		for (int i = 0; i < 30;i++){
-			Anatomy* testOrg = new Anatomy(world, &terrain);
-			Object* testOrgP = testOrg;
-			objects.push_back(testOrgP);
-
-
-			float x = ((rand() % 50) - 25)*METER;
-			float y = ((rand() % 50) - 25)*METER;
-			testOrg->CreateOrganism(glm::vec3(x, terrain.GetHeight(x, y), y));
-		}
 
 		//GLDebugDrawer debugDraw= GLDebugDrawer(&camera);
 
