@@ -19,6 +19,7 @@ public:
 	glm::mat4 GetMatrix();
 
 	virtual void UpdatePosition();
+	void ExtractFromFile(const char* name);
 
 	std::vector<Index>& GetIndices();
 	std::vector<Vertex>& GetVertices();

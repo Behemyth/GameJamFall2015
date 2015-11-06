@@ -1,5 +1,5 @@
 #include "Object.h"
-
+#include "ObjLoader.h"
 
 Object::Object()
 {
@@ -12,6 +12,49 @@ Object::Object()
 Object::~Object()
 {
 }
+
+void Object::ExtractFromFile(const char* name){
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
+	std::string err = tinyobj::LoadObj(shapes, materials, name, NULL);
+
+	if (!err.empty()) {
+		std::cerr << err << std::endl;
+	}
+
+	uint overallSize = 0;
+	uint faceOverallSize = 0;
+	for (uint i = 0; i < shapes.size(); i++){
+		overallSize += shapes[i].mesh.positions.size();
+		faceOverallSize += shapes[i].mesh.indices.size();
+	}
+
+
+	verticeAmount = overallSize;
+	faceAmount = faceOverallSize;
+
+
+	uint overallOffset = 0;
+	uint faceOffset = 0;
+
+	for (uint i = 0; i < shapes.size(); i++){
+		for (uint v = 0; v < verticeAmount / 3; v++){
+			vertices[overallOffset + v].SetData(
+				glm::vec3(shapes[i].mesh.positions[3 * v + 0], shapes[i].mesh.positions[3 * v + 1], shapes[i].mesh.positions[3 * v + 2]),
+				glm::vec2(shapes[i].mesh.texcoords[2 * v + 0], shapes[i].mesh.texcoords[2 * v + 1]),
+				glm::vec3(shapes[i].mesh.normals[3 * v + 0], shapes[i].mesh.normals[3 * v + 1], shapes[i].mesh.normals[3 * v + 2]));
+		}
+		overallOffset += shapes[i].mesh.positions.size();
+
+		for (uint f = 0; f < faceAmount / 3; f++){
+			faces[faceOffset + f].SetData(
+				glm::uvec3(shapes[i].mesh.indices[3 * f + 0], shapes[i].mesh.indices[3 * f + 1], shapes[i].mesh.indices[3 * f + 2]),
+				shapes[i].mesh.material_ids[f]);
+		}
+		faceOffset += shapes[i].mesh.indices.size();
+	}
+}
+
 
 void Object::Draw(Camera& camera)
 {
