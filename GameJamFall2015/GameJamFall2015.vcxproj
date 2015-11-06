@@ -54,15 +54,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GJPropertySheet.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GJPropertySheet.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GJPropertySheet.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GJPropertySheet.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
@@ -115,6 +119,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Input.cpp" />
+    <ClCompile Include="InputHelper.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp" />
+    <ClCompile Include="Perlin.cpp" />
+    <ClCompile Include="rand.cpp" />
+    <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderSupport.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BasicIncludes.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="GlobalStructures.h" />
+    <ClInclude Include="Input.h" />
+    <ClInclude Include="InputHelper.h" />
+    <ClInclude Include="Metrics.h" />
+    <ClInclude Include="Object.h" />
+    <ClInclude Include="Perlin.h" />
+    <ClInclude Include="rand.h" />
+    <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderSupport.h" />
+    <ClInclude Include="Typedefs.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="fragment-shader[basic].txt" />
+    <Text Include="fragment-shader[Renderer].txt" />
+    <Text Include="geometry-shader[basic].txt" />
+    <Text Include="vertex-shader[basic].txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LSPropertySheet.props" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
