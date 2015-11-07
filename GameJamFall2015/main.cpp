@@ -191,17 +191,9 @@ void Run() {
 		world->setGravity(btVector3(0, -9.82f*METER, 0));
 
 
-		Hand* hand = new Hand(world);
-		Object* handP = hand;
-		objects.push_back(handP);
-
-		//GLDebugDrawer debugDraw= GLDebugDrawer(&camera);
-
-		//debugDraw.DBG_DrawWireframe; 
-		//debugDraw.setDebugMode(btIDebugDraw::DBG_DrawWireframe);
-		//debugDraw.setDebugMode(1);
-
-		//world->setDebugDrawer(&debugDraw);
+		//Hand* hand = new Hand(world);
+		//Object* handP = hand;
+		//objects.push_back(handP);
 
 		//timer info for loop
 		double t = 0.0f;
@@ -258,7 +250,6 @@ void Run() {
 
 
 			Draw();
-			//world->debugDrawWorld();
 			glfwSwapBuffers(mainThread);
 	}
 
