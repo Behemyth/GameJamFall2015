@@ -110,7 +110,4 @@
     <Text Include="fragment-shader[basic].txt" />
     <Text Include="geometry-shader[basic].txt" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="LSPropertySheet.props" />
-  </ItemGroup>
 </Project>
