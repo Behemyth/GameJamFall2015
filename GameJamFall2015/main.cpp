@@ -188,12 +188,12 @@ void Run() {
 
 		// The world.
 		btDiscreteDynamicsWorld* world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-		world->setGravity(btVector3(0, -9.82f*METER, 0));
+		world->setGravity(btVector3(0, 0*METER, 0));
 
 
-		//Hand* hand = new Hand(world);
-		//Object* handP = hand;
-		//objects.push_back(handP);
+		Hand* hand = new Hand(world);
+		Object* handP = hand;
+		objects.push_back(handP);
 
 		//timer info for loop
 		double t = 0.0f;
