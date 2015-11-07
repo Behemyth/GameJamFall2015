@@ -1,9 +1,11 @@
 #version 420 core
 
 in vec3 vert_VS_in;
-in vec3 color_VS_in;
+in vec2 frag_VS_in;
+in vec3 normal_VS_in;
 
-out vec3 color_GS_in;
+out vec2 frag_GS_in;
+out vec3 normal_GS_in;
 out vec4 vert_GS_in;
 
 uniform mat4 camera;
@@ -13,6 +15,7 @@ void main()
 {
 	vec4 vert_VS_inNew = vec4(vert_VS_in.x,vert_VS_in.y,vert_VS_in.z,1.0f);
     vert_GS_in = position*vert_VS_inNew;
-	color_GS_in = color_VS_in;
+	frag_GS_in = frag_VS_in;
+	normal_GS_in = normal_VS_in;
 	gl_Position=camera*position*vert_VS_inNew;
 }

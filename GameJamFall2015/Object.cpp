@@ -30,26 +30,23 @@ void Object::ExtractFromFile(const char* name){
 	}
 
 
-	verticeAmount = overallSize;
-	faceAmount = faceOverallSize;
-
 
 	uint overallOffset = 0;
 	uint faceOffset = 0;
 
 	for (uint i = 0; i < shapes.size(); i++){
-		for (uint v = 0; v < verticeAmount / 3; v++){
-			vertices[overallOffset + v].SetData(
+		for (uint v = 0; v < overallSize / 3; v++){
+			vertices.push_back({
 				glm::vec3(shapes[i].mesh.positions[3 * v + 0], shapes[i].mesh.positions[3 * v + 1], shapes[i].mesh.positions[3 * v + 2]),
 				glm::vec2(shapes[i].mesh.texcoords[2 * v + 0], shapes[i].mesh.texcoords[2 * v + 1]),
-				glm::vec3(shapes[i].mesh.normals[3 * v + 0], shapes[i].mesh.normals[3 * v + 1], shapes[i].mesh.normals[3 * v + 2]));
+				glm::vec3(shapes[i].mesh.normals[3 * v + 0], shapes[i].mesh.normals[3 * v + 1], shapes[i].mesh.normals[3 * v + 2]) });
 		}
 		overallOffset += shapes[i].mesh.positions.size();
 
-		for (uint f = 0; f < faceAmount / 3; f++){
-			faces[faceOffset + f].SetData(
-				glm::uvec3(shapes[i].mesh.indices[3 * f + 0], shapes[i].mesh.indices[3 * f + 1], shapes[i].mesh.indices[3 * f + 2]),
-				shapes[i].mesh.material_ids[f]);
+		for (uint f = 0; f < faceOverallSize / 3; f++){
+			indices.push_back({
+				glm::uvec3(shapes[i].mesh.indices[3 * f + 0], shapes[i].mesh.indices[3 * f + 1], shapes[i].mesh.indices[3 * f + 2]) });
+				//shapes[i].mesh.material_ids[f] });
 		}
 		faceOffset += shapes[i].mesh.indices.size();
 	}
@@ -64,12 +61,26 @@ void Object::Draw(Camera& camera)
 		shader->use();
 		glBindVertexArray(vao);
 		shader->setUniform(cameraUniform, camera.matrix());
-		//shader->setUniform(cameraUniform, glm::ortho(0.0f, 1.0f*METER, 0.0f, 1.0f*METER, 2.0f*METER, -2.0f*METER));//camera.matrix() otherwise
+		shader->setUniform(texUniform, 0);
+
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture->object());
+
 		shader->setUniform(posUniform, position);
 		glDrawElements(GL_TRIANGLES, (indices.size() * 3), GL_UNSIGNED_INT, (GLvoid*)0);
 		glBindVertexArray(0);
 		shader->stopUsing();
 }
+Bitmap Object::LoadBmp(const char* filename) {
+	Bitmap bmp = Bitmap::bitmapFromFile(filename);
+	bmp.flipVertically();
+	return bmp;
+}
+Texture* Object::LoadTexture(Bitmap bmp){
+	return new Texture
+		(bmp);
+}
+
 void Object::Load(){
 
 	if (!isStatic){
@@ -105,8 +116,9 @@ void Object::Load(){
 
 	shader = LoadShaders("vertex-shader[basic].txt", "geometry-shader[basic].txt","fragment-shader[basic].txt");
 	cameraUniform = shader->uniform("camera");
+	texUniform = shader->uniform("tex");
 	posUniform = shader->uniform("position");
-
+	texture = LoadTexture(LoadBmp(textureName));
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
@@ -116,9 +128,11 @@ void Object::Load(){
 	glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex)*vertices.size(), &vertices.front(), GL_STATIC_DRAW);
 
 	glEnableVertexAttribArray(shader->attrib("vert_VS_in"));
-	glVertexAttribPointer(shader->attrib("vert_VS_in"), 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), NULL);
-	glEnableVertexAttribArray(shader->attrib("color_VS_in"));
-	glVertexAttribPointer(shader->attrib("color_VS_in"), 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid*)(3 * sizeof(GLfloat)));
+	glVertexAttribPointer(shader->attrib("vert_VS_in"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), NULL);
+	glEnableVertexAttribArray(shader->attrib("frag_VS_in"));
+	glVertexAttribPointer(shader->attrib("frag_VS_in"), 2, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid*)(3 * sizeof(GLfloat)));
+	glEnableVertexAttribArray(shader->attrib("normal_VS_in"));
+	glVertexAttribPointer(shader->attrib("normal_VS_in"), 3, GL_FLOAT, GL_FALSE, 8 * sizeof(GLfloat), (const GLvoid*)(5 * sizeof(GLfloat)));
 
 	glGenBuffers(1, &ibo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);

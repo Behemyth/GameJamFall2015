@@ -5,7 +5,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Object.h"
-
+#include "Hand.h"
 
 //Function List
 void Update(double);
@@ -191,7 +191,9 @@ void Run() {
 		world->setGravity(btVector3(0, -9.82f*METER, 0));
 
 
-
+		Hand* hand = new Hand(world);
+		Object* handP = hand;
+		objects.push_back(handP);
 
 		//GLDebugDrawer debugDraw= GLDebugDrawer(&camera);
 
@@ -236,10 +238,10 @@ void Run() {
 
 				CameraInput(); //bypasses input system for direct camera manipulation
 
-				if (runPhysics){	
+				//if (runPhysics){	
 					Update(deltaTime*timeMod); //updates all objects based on the constant deltaTime.
 					world->stepSimulation(deltaTime*timeMod, glm::max(10 * timeMod,10.0));
-				}
+			//	}
 				GetPositions(); //transforms bullet matrices to opengl
 
 

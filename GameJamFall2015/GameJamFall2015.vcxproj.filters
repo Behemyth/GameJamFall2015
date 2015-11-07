@@ -51,6 +51,9 @@
     <ClCompile Include="ObjLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Hand.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shader.h">
@@ -98,11 +101,13 @@
     <ClInclude Include="ObjLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Hand.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="vertex-shader[basic].txt" />
     <Text Include="fragment-shader[basic].txt" />
-    <Text Include="fragment-shader[Renderer].txt" />
     <Text Include="geometry-shader[basic].txt" />
   </ItemGroup>
   <ItemGroup>

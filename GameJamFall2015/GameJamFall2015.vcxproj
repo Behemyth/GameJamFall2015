@@ -121,6 +121,7 @@
   <ItemGroup>
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Hand.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHelper.cpp" />
     <ClCompile Include="main.cpp" />
@@ -137,6 +138,7 @@
     <ClInclude Include="Bitmap.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GlobalStructures.h" />
+    <ClInclude Include="Hand.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHelper.h" />
     <ClInclude Include="Metrics.h" />
@@ -151,7 +153,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="fragment-shader[basic].txt" />
-    <Text Include="fragment-shader[Renderer].txt" />
     <Text Include="geometry-shader[basic].txt" />
     <Text Include="vertex-shader[basic].txt" />
   </ItemGroup>
