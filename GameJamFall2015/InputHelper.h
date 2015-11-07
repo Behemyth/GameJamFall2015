@@ -8,7 +8,7 @@ class KeyFunction
 public:
 	virtual void Execute() const = 0;
 };
-
+ 
 template <class FunctionInstance>
 class InputHelper : public KeyFunction
 {
