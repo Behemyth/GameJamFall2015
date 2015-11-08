@@ -355,7 +355,6 @@ void MouseInput() {
 void CameraInput() {
 	double moveSpeed;
 	glm::vec3 oldPos=camera.position();
-
 		moveSpeed = 50 * METER * deltaTime;
 
 

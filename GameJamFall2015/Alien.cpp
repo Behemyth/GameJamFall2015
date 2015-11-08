@@ -72,7 +72,7 @@ void Alien::Update(double dt){
 					filename = "nyehehe.mp3";
 				}
 				else if (species == 4){
-					filename = "ohmy.wav";
+					filename = "kawaii.mp3";
 				}
 				else if (species == 5){
 					filename = "ohmy.wav";
@@ -84,9 +84,12 @@ void Alien::Update(double dt){
 					filename = "ohmy.wav";
 				}
 				irrklang::ISound* s = sound->play3D(filename, irrklang::vec3df(translate.x, translate.y, translate.z), false, false, true);
-				s->setVolume(1.0f);
-				s->setMinDistance(1.0f*KILOMETER);
-				s->setPosition(irrklang::vec3df(0, 0, 0));
+
+				if (s){
+					s->setVolume(1.0f);
+					s->setMinDistance(1.0f*KILOMETER);
+					s->setPosition(irrklang::vec3df(0, 0, 0));
+				}
 				timer = 0;
 		}
 	}
