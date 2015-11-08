@@ -1,10 +1,10 @@
 #include "Terrain.h"
 
 
-Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
+Terrain::Terrain(btDiscreteDynamicsWorld* worldN, float radiusN,uint widthN, int seed)
 {
 
-
+	radius = radiusN;
 	float amplitude = 20 * METER;
 	Perlin* perlin = new Perlin(7, 0.01, amplitude, seed);
 	width = widthN;
@@ -18,21 +18,21 @@ Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
 
 	for (int i = 0; i < width; i++) {
 		for (int j = 0; j < width; j++) {
-			float x = ((i / (width - 1.0f)) - (0.5f))*KILOMETER;
-			float z = ((j / (width - 1.0f)) - (0.5f))*KILOMETER;
+			float x = ((i / (width - 1.0f)) - (0.5f))*radius;
+			float z = ((j / (width - 1.0f)) - (0.5f))*radius;
 			float y =  perlin->Get(i, j);
 			glm::vec3 pos = glm::vec3(x, y, z);
 			
 
 
-			float falloff = 50 * METER;
-			if (glm::distance(pos, glm::vec3(0))>0.4f*KILOMETER + falloff){
-				y += 50.0f*METER;
+			float falloff = radius/20.0f;
+			if (glm::distance(pos, glm::vec3(0))>CUTOFF + falloff){
+				y += radius / 20.0f;
 			}
-			else if (glm::distance(pos, glm::vec3(0))>0.4f*KILOMETER){
-				float diff = glm::distance(pos, glm::vec3(0)) - 0.4f*KILOMETER;
-				float falloff = 50 * METER;
-				y += 50.0f*METER*(diff / falloff);
+			else if (glm::distance(pos, glm::vec3(0))>CUTOFF){
+				float diff = glm::distance(pos, glm::vec3(0)) - CUTOFF;
+				float falloff = radius / 20.0f;
+				y += radius / 20.0f*(diff / falloff);
 
 			}
 
@@ -56,7 +56,7 @@ Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
 
 	shape = new btHeightfieldTerrainShape(width, width, continuousHeightData, 1.0f, -amplitude, amplitude, 1, PHY_FLOAT, false);
 
-	btVector3 localScaling = btVector3(KILOMETER / (float)width, 1.0f, KILOMETER / (float)width);
+	btVector3 localScaling = btVector3(radius / (float)width, 1.0f, radius / (float)width);
 	shape->setLocalScaling(localScaling);
 
 	Load(); //loads drawing related stuff. Call after vertices/indices have been defined
@@ -65,8 +65,8 @@ Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
 //uses bilinear interpolation
 float Terrain::GetHeight(float x, float y){
 
-	float newX = (x + (KILOMETER / 2.0f)) / (KILOMETER/(float)width);
-	float newY = (y + (KILOMETER / 2.0f)) / (KILOMETER / (float)width);
+	float newX = (x + (radius / 2.0f)) / (radius / (float)width);
+	float newY = (y + (radius / 2.0f)) / (radius / (float)width);
 
 	uint px = glm::floor(newX);
 	uint py = glm::floor(newY);

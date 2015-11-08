@@ -35,6 +35,9 @@ bool wireframeToggle;
 double wireframeTimer;
 std::vector<Object*> objects;
 
+Terrain* terrain;
+irrklang::ISoundEngine* engine;
+irrklang::ISound* music;
 void Terminate() {
 	glfwTerminate();
 	exit(0);
@@ -62,6 +65,17 @@ void ToggleWireFrame(){
 	}
 }
 void InitializeWindow() {
+	engine = irrklang::createIrrKlangDevice();
+	engine->setSoundVolume(1.0f);
+	music = engine->play3D("doodoodoo.mp3",
+		irrklang::vec3df(0, 0, 0), true, false, true);
+	if (music){
+	
+		music->setMinDistance(1.0f*KILOMETER);
+		music->setPosition(irrklang::vec3df(0, 0, 0));
+		music->setVolume(0.35f);
+	}
+
 	wireframeToggle = false;
 	seed = time(NULL);
 	runPhysics = false;
@@ -197,13 +211,16 @@ void Run() {
 		Object* handP = hand;
 		objects.push_back(handP);
 
-		Terrain* terrain = new Terrain(world, 500,seed);
+		terrain = new Terrain(world, KILOMETER,500,seed);
 		Object* terrainP = terrain;
 		objects.push_back(terrainP);
 
-		Alien* alien = new Alien(world, terrain,&camera);
-		Object* alienP = alien;
-		objects.push_back(alienP);
+		for (int i = 1; i < 25;i++){
+			int r = rand() % 7 + 1;
+			Alien* alien = new Alien(world, terrain, &camera, engine, r);
+			Object* alienP = alien;
+			objects.push_back(alienP);
+		}
 
 
 		std::vector<glm::vec3> planetVecs;
@@ -267,11 +284,12 @@ void Run() {
 			while (accumulator >= deltaTime) {
 
 				
+				engine->setListenerPosition(irrklang::vec3df(camera.position().x, camera.position().y, camera.position().x), irrklang::vec3df(camera.forward().x, camera.forward().y, camera.forward().x));
+	
 				MouseInput();//update mouse change
 				glfwPollEvents(); //executes all set input callbacks
 
 				CameraInput(); //bypasses input system for direct camera manipulation
-				camera._position.y = terrain->GetHeight(camera._position.x, camera._position.z)+5*METER;
 				//if (runPhysics){	
 					Update(deltaTime*timeMod); //updates all objects based on the constant deltaTime.
 					world->stepSimulation(deltaTime*timeMod, glm::max(10 * timeMod,10.0));
@@ -295,7 +313,9 @@ void Run() {
 			glfwSwapBuffers(mainThread);
 	}
 
+		music->drop(); // release music stream.
 
+		engine->drop(); // delete engine
 
 	//cleanup
 		delete world;
@@ -334,6 +354,7 @@ void MouseInput() {
 }
 void CameraInput() {
 	double moveSpeed;
+	glm::vec3 oldPos=camera.position();
 	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 		moveSpeed = 50 * METER * deltaTime;
 	}
@@ -363,6 +384,12 @@ void CameraInput() {
 	else if (glfwGetKey(mainThread, GLFW_KEY_X) == GLFW_PRESS) {
 		camera.offsetPosition(float(moveSpeed) * glm::vec3(0, 1, 0));
 	}
+
+	if (glm::distance(glm::vec3(0), camera.position())>CUTOFF){
+     	camera._position = oldPos;
+	}
+
+	camera._position.y = terrain->GetHeight(camera._position.x, camera._position.z) + 5 * METER;
 }
 void GetPositions(){
 	for (int i = 0; i < objects.size(); i++){
