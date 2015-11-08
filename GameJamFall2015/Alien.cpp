@@ -3,11 +3,15 @@
 
 Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN, irrklang::ISoundEngine* soundN, uint speciesN)
 {
+	float radius = 0.4*KILOMETER;
 	species = speciesN;
 	std::normal_distribution<float> distro78(0.0f,5.0f);
 	timer = GetDistribution(distro78);
 	sound = soundN;
-	translate = glm::vec3(0, 0, 0);
+
+	std::normal_distribution<float> startDistro(0, 100);
+	translate = glm::vec3(GetDistribution(startDistro), GetDistribution(startDistro), GetDistribution(startDistro));
+
 	rotate = glm::vec3(1.0f, 0.0f, 0.0f);
 	terrain = terrianN;
 	world = worldN;
