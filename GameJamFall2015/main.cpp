@@ -215,11 +215,11 @@ void Run() {
 		terrain = new Terrain(world, KILOMETER,500,seed);
 		Object* terrainP = terrain;
 		objects.push_back(terrainP);
-
-		Rock* rock = new Rock(world, terrain);
-		Object* rockP = rock;
-		objects.push_back(rockP);
-
+		for (int i = 1; i < 50; i++){
+			Rock* rock = new Rock(world, terrain);
+			Object* rockP = rock;
+			objects.push_back(rockP);
+		}
 
 		for (int i = 1; i < 50;i++){
 			int r = rand() % 7 + 1;
