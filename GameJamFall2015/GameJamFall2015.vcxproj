@@ -123,6 +123,7 @@
     <ClCompile Include="Bitmap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Planet.cpp" />
+    <ClCompile Include="Rock.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHelper.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="GlobalStructures.h" />
     <ClInclude Include="Planet.h" />
+    <ClInclude Include="Rock.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHelper.h" />

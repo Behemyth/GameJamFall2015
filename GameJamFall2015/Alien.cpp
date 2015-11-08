@@ -5,13 +5,13 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 {
 	float radius = 0.4*KILOMETER;
 	species = speciesN;
-	std::normal_distribution<float> distro78(0.0f,5.0f);
+	std::uniform_real_distribution<float> distro78(0.0f, 5.0f);
 	timer = GetDistribution(distro78);
 	sound = soundN;
 	
 	prevAngle = 0.0f;
 	prevVeloc = 0.0f;
-	std::normal_distribution<float> startDistro(0.0f, 100*METER);
+	std::uniform_real_distribution<float> startDistro(0.0f, 100 * METER);
 	translate = glm::vec3(GetDistribution(startDistro), GetDistribution(startDistro), GetDistribution(startDistro));
 	//translate = glm::vec3(0.0f, 0.0f, 0.0f);
 
