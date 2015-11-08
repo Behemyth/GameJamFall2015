@@ -158,14 +158,13 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 	float velocity = (1 / glm::length(alien - player)) * METER*100;
 	float angle = 0.0f;
 
-
 	glm::vec2 alien2D(alien.x, alien.z);
-	if (abs(radius - length(alien2D)) < (radius/8)) {
-		float currentLoc = -1 * glm::degrees(atan2(alien.z, alien.x));
+	if ((radius-length(alien2D) > (radius/4))) {
+		float currentLoc = glm::degrees(atan2(alien.z, alien.x));
 		if (currentLoc < 0) {
 			currentLoc = 360 + currentLoc;
 		}
-		std::uniform_real_distribution<float> distro1(currentLoc - 15.0f, currentLoc + 15.0f);
+		std::normal_distribution<float> distro1(currentLoc - 15.0f, currentLoc + 15.0f);
 		angle = GetDistribution(distro1);
 		if (angle < 0) {
 			angle = 360 + angle;
@@ -191,7 +190,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 		if (playerLoc < 0) {
 			playerLoc = 360 + playerLoc;
 		}
-		std::uniform_real_distribution<float> distro3(playerLoc - 15.0f, playerLoc + 15.0f);
+		std::normal_distribution<float> distro3(playerLoc - 15.0f, playerLoc + 15.0f);
 		angle = GetDistribution(distro3);
 		if (angle < 0) {
 			angle = 360 + angle;
@@ -201,7 +200,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 		}
 	}
 
-	if ((rand() % 100) < 98) {
+	if (((rand() % 100) < 98)) {
 		angle = prevAngle;
 		velocity = prevVeloc;
 	}
