@@ -31,7 +31,7 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 	float fwidth = (float)width;
 
 	isStatic = true;
-	world = worldN;
+	world = worldN; 
 
 	continuousHeightData = new float[width*width];
 
