@@ -9,7 +9,7 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	timer = GetDistribution(distro78);
 	sound = soundN;
 
-	std::normal_distribution<float> startDistro(0, 100);
+	std::normal_distribution<float> startDistro(0, 100*METER);
 	translate = glm::vec3(GetDistribution(startDistro), GetDistribution(startDistro), GetDistribution(startDistro));
 
 	rotate = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -127,7 +127,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 	float radius = 0.4*KILOMETER;
 	glm::vec3 center(0, 0, 0);
 	std::normal_distribution<float> velDistro(1, 2);
-	float velocity = (1 / glm::length(alien - player)) * METER*25;
+	float velocity = (1 / glm::length(alien - player)) * METER*100;
 	float angle = 0;
 
 	//If alien is far away:
