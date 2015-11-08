@@ -6,5 +6,9 @@ class Hand: public Object
 public:
 	Hand(btDiscreteDynamicsWorld*);
 	~Hand();
+
+	void Update(double);
+private:
+
 };
 

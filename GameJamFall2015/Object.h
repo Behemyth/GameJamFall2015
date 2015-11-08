@@ -34,6 +34,8 @@ protected:
 	glm::mat4 position;
 	char* textureName;
 	
+	void NormalizeScale(glm::vec3);
+
 private:
 	std::vector<Vertex> vertices;
 	std::vector<Index> indices;

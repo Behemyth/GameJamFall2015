@@ -71,6 +71,12 @@ void Object::Draw(Camera& camera)
 		glBindVertexArray(0);
 		shader->stopUsing();
 }
+
+void Object::NormalizeScale(glm::vec3 scale){
+	for (int i = 0; i < GetVertices().size();i++){
+		GetVertices()[i].position *=  scale;
+	}
+}
 Bitmap Object::LoadBmp(const char* filename) {
 	Bitmap bmp = Bitmap::bitmapFromFile(filename);
 	bmp.flipVertically();

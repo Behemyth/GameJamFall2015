@@ -221,12 +221,6 @@ void Run() {
 
 		//GLDebugDrawer debugDraw= GLDebugDrawer(&camera);
 
-		//debugDraw.DBG_DrawWireframe; 
-		//debugDraw.setDebugMode(btIDebugDraw::DBG_DrawWireframe);
-		//debugDraw.setDebugMode(1);
-
-		//world->setDebugDrawer(&debugDraw);
-
 		//timer info for loop
 		double t = 0.0f;
 		double currentTime = glfwGetTime();
@@ -282,7 +276,6 @@ void Run() {
 
 
 			Draw();
-			//world->debugDrawWorld();
 			glfwSwapBuffers(mainThread);
 	}
 
@@ -326,7 +319,7 @@ void MouseInput() {
 void CameraInput() {
 	double moveSpeed;
 	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		moveSpeed = 400 * METER * deltaTime;
+		moveSpeed = 50 * METER * deltaTime;
 	}
 	else if (glfwGetKey(mainThread, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
 		moveSpeed = 1 * METER * deltaTime;
