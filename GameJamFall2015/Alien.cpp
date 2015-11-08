@@ -184,7 +184,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 
 	glm::vec2 alien2D(alien.x, alien.z);
 	if (abs(radius - length(alien2D)) < (radius/8)) {
-		float currentLoc = glm::degrees(atan2(alien.z, alien.x));
+		float currentLoc = -1 * glm::degrees(atan2(alien.z, alien.x));
 		if (currentLoc < 0) {
 			currentLoc = 360 + currentLoc;
 		}
@@ -231,7 +231,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 
 
 	prevVeloc = velocity;
-	prevAngle = (float)angle;
+	prevAngle = angle;
 	alien.x = alien.x + (velocity * cos(glm::radians(angle)));
 	alien.z = alien.z + (velocity * sin(glm::radians(angle))); 
 	alien.y = terrain->GetHeight(alien.x, alien.z);
