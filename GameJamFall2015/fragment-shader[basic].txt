@@ -8,6 +8,7 @@ out vec4 fragment;
 
 
 uniform sampler2D tex;
+uniform sampler2D norm;
 
 vec4 ambientLight=vec4(0.3,0.3,0.3,1.0); 
 vec4 lightColor=vec4(0.9,0.9,0.9,1.0); 
@@ -17,7 +18,7 @@ vec3 lightNormal=vec3(0.0f,1.0f,0.0f);
 
 void main(){
 
-	vec3 normal = normalize(normal_FS_in);
+	vec3 normal = normalize(normal_FS_in+texture(norm, frag_FS_in).rgb);
 
 	float intensity = max(dot(lightNormal, normal),0.0);
 

@@ -25,6 +25,4 @@
 #include <functional>
 #include "btBulletDynamicsCommon.h"
 #include "Typedefs.h"
-#include <random>
-#include <chrono>
-#include "rand.h"
+#include "glm/gtx/vector_angle.hpp"

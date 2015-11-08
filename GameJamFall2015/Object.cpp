@@ -6,6 +6,11 @@ Object::Object()
 	isStatic = false;
 	isGhost = false;
 	position = glm::mat4();
+	fragmentName = "fragment-shader[basic].txt";
+	displacementName = "gray.png";
+	vertexName = "vertex-shader[basic].txt";
+	textureName = "dirt.jpg";
+	normalName = "black.png";
 }
 
 
@@ -62,9 +67,17 @@ void Object::Draw(Camera& camera)
 		glBindVertexArray(vao);
 		shader->setUniform(cameraUniform, camera.matrix());
 		shader->setUniform(texUniform, 0);
-
+		shader->setUniform(disUniform, 1);
+		shader->setUniform(normUniform, 2);
+		shader->setUniform(posNormUniform, glm::inverse(glm::transpose(position)));
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture->object());
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, displacement->object());
+
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, normal->object());
 
 		shader->setUniform(posUniform, position);
 		glDrawElements(GL_TRIANGLES, (indices.size() * 3), GL_UNSIGNED_INT, (GLvoid*)0);
@@ -120,11 +133,16 @@ void Object::Load(){
 		world->addRigidBody(rigidBody);
 	}
 
-	shader = LoadShaders("vertex-shader[basic].txt", "geometry-shader[basic].txt","fragment-shader[basic].txt");
+	shader = LoadShaders(vertexName, "geometry-shader[basic].txt", fragmentName);
 	cameraUniform = shader->uniform("camera");
+	posNormUniform = shader->uniform("normalPos");
 	texUniform = shader->uniform("tex");
+	disUniform = shader->uniform("dis");
+	normUniform = shader->uniform("norm");
 	posUniform = shader->uniform("position");
+	normal = LoadTexture(LoadBmp(normalName));
 	texture = LoadTexture(LoadBmp(textureName));
+	displacement = LoadTexture(LoadBmp(displacementName));
 
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
