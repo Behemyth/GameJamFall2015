@@ -20,6 +20,8 @@ public:
 private:
 	uint species;
 	float timer;
+	bool direction;
+	float side;
 	irrklang::ISoundEngine* sound;
 	glm::vec3 translate;
 	glm::vec3 rotate;

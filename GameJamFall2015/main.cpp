@@ -68,7 +68,7 @@ void ToggleWireFrame(){
 void InitializeWindow() {
 	engine = irrklang::createIrrKlangDevice();
 	engine->setSoundVolume(1.0f);
-	music = engine->play3D("doodoodoo.mp3",
+	music = engine->play3D("Alien Jive.mp3",
 		irrklang::vec3df(0, 0, 0), true, false, true);
 	if (music){
 	
@@ -221,7 +221,7 @@ void Run() {
 		objects.push_back(rockP);
 
 
-		for (int i = 1; i < 25;i++){
+		for (int i = 1; i < 50;i++){
 			int r = rand() % 7 + 1;
 			Alien* alien = new Alien(world, terrain, &camera, engine, r);
 			Object* alienP = alien;
