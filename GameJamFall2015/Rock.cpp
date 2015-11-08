@@ -16,11 +16,12 @@ Rock::Rock(btDiscreteDynamicsWorld* worldN,Terrain* terrainN)
 	position = glm::translate(glm::mat4(), glm::vec3(x, terrain->GetHeight(x,y), y));
 
 
-	
+	std::uniform_real_distribution<float> distro2(1.0f*METER, 5.0f*METER);
+	float size = GetDistribution(distro2);
 	ExtractFromFile("rock1.obj");
 	NormalizeScale(glm::vec3(2.0f*METER));
 
-	textureName = "dirt.jpg";
+	textureName = "rock.png";
 
 	shape = new btBoxShape(btVector3(0.1f*METER, 0.5f*METER, 0.1f*METER));
 

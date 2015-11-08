@@ -9,8 +9,8 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	side = GetDistribution(distro79);
 	float radius = 0.4*KILOMETER;
 	species = speciesN;
-	std::uniform_real_distribution<float> distro78(0.0f, 5.0f);
-	timer = GetDistribution(distro78);
+	//std::uniform_real_distribution<float> distro78(0.0f, 5.0f);
+	timer = 5.0f;
 	sound = soundN;
 	
 	prevAngle = 0.0f;
@@ -66,7 +66,7 @@ void Alien::Update(double dt){
 	timer += dt;
 	if (timer >= TIMEMAX){
 		timer = TIMEMAX;
-		if (glm::distance(camera->position(), translate) < 20.0f*METER){
+		if (glm::distance(camera->position(), translate) < 10.0f*METER){
 				char* filename = "";
 				if (species == 1){
 					filename = "lisa.wav";
@@ -81,10 +81,10 @@ void Alien::Update(double dt){
 					filename = "kawaii.mp3";
 				}
 				else if (species == 5){
-					filename = "ohmy.wav";
+					filename = "noises.wav";
 				}
 				else if (species == 6){
-					filename = "ohmy.wav";
+					filename = "mustgetout.mp3";
 				}
 				else if (species == 7){
 					filename = "ohmy.wav";
@@ -115,7 +115,15 @@ glm::mat4 billboard(glm::vec3 position, glm::vec3 cameraPos, glm::vec3 cameraUp)
 }
 void Alien::UpdatePosition(){
 	translate = alienMovement(translate, camera->position());
-	position = glm::translate(glm::mat4(),glm::vec3(translate.x,translate.y,translate.z));
+
+	float transAdd=0;
+	if (timer != TIMEMAX){
+		float transAdd = 1.5f*METER;
+	}
+	else{
+		transAdd = 0.0f;
+	}
+	position = glm::translate(glm::mat4(), glm::vec3(translate.x, translate.y+transAdd, translate.z));
 
 	glm::mat4 rotat = billboard(glm::vec3(translate.x, 0.0f, translate.z), glm::vec3(camera->position().x, 0.0f, camera->position().z), glm::vec3(0, 1, 0));
 
@@ -125,7 +133,12 @@ void Alien::UpdatePosition(){
 	position = position*rotat;
 
 	if (direction){
-		side += 0.1f;
+		if (timer != TIMEMAX){
+			side += 0.2f;
+		}
+		else{
+			side += 0.1f;
+		}
 		if (side>1.0f){
 			side = 1.0f;
 			direction = !direction;
@@ -133,16 +146,26 @@ void Alien::UpdatePosition(){
 		
 	}
 	else{
-		side -= 0.1f;
+		if (timer != TIMEMAX){
+			side -= 0.2f;
+		}
+		else{
+			side -= 0.1f;
+		}
 		if (side<-1.0f){
+
 			side = -1.0f;
 			direction = !direction;
 		}
 	}
 
 	
-
-	position = glm::rotate(position,glm::radians(side*10.0f),glm::vec3(0.0f,0.0f,1.0f));
+	if (timer != TIMEMAX){
+		position = glm::rotate(position, glm::radians(side*15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
+	else{
+		position = glm::rotate(position, glm::radians(side*10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	}
 
 }
 Alien::~Alien()
