@@ -139,13 +139,13 @@ void Alien::Update(double dt){
 					filename = "chohc.wav";
 				}
 				else if (species == 12){
-					filename = "heyheyhey.wav";
+					filename = "heyheyhey.mp3";
 				}
 				else if (species == 13){
-					filename = "OhMyGod.wav";
+					filename = "OhMyGod.mp3";
 				}
 				else if (species == 14){
-					filename = "skeletons.wav";
+					filename = "skeletons.mp3";
 				}
 				else if (species == 0){
 					filename = "urgleburgle.wav";
