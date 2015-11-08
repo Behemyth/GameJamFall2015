@@ -1,11 +1,11 @@
 #pragma once
 #include "Object.h"
 
-class Hand: public Object
+class Skybox: public Object
 {
 public:
-	Hand(btDiscreteDynamicsWorld*);
-	~Hand();
+	Skybox(btDiscreteDynamicsWorld*);
+	~Skybox();
 
 	void Update(double);
 private:

@@ -6,7 +6,8 @@
 #include "Input.h"
 #include "Object.h"
 #include "Terrain.h"
-#include "Hand.h"
+#include "Skybox.h"
+#include "Alien.h"
 
 //Function List
 void Update(double);
@@ -191,13 +192,17 @@ void Run() {
 		world->setGravity(btVector3(0, -9.82*METER, 0));
 
 
-		Hand* hand = new Hand(world);
+		Skybox* hand = new Skybox(world);
 		Object* handP = hand;
 		objects.push_back(handP);
 
-		Terrain* terrain = new Terrain(world, 200,seed);
+		Terrain* terrain = new Terrain(world, 500,seed);
 		Object* terrainP = terrain;
 		objects.push_back(terrainP);
+
+		Alien* alien = new Alien(world, terrain,&camera);
+		Object* alienP = alien;
+		objects.push_back(alienP);
 
 		//timer info for loop
 		double t = 0.0f;
@@ -233,7 +238,7 @@ void Run() {
 				glfwPollEvents(); //executes all set input callbacks
 
 				CameraInput(); //bypasses input system for direct camera manipulation
-				camera._position GetHeight
+				camera._position.y = terrain->GetHeight(camera._position.x, camera._position.z)+5*METER;
 				//if (runPhysics){	
 					Update(deltaTime*timeMod); //updates all objects based on the constant deltaTime.
 					world->stepSimulation(deltaTime*timeMod, glm::max(10 * timeMod,10.0));

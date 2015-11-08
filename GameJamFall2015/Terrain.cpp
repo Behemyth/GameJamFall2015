@@ -5,11 +5,14 @@ Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
 {
 
 
-	float amplitude = 40 * METER;
-	Perlin* perlin = new Perlin(5, 0.01, amplitude, seed);
+	float amplitude = 20 * METER;
+	Perlin* perlin = new Perlin(7, 0.01, amplitude, seed);
 	width = widthN;
 	isStatic=true;
 	world = worldN;
+
+	displacementName = "asteroid_DISP.png";
+	normalName = "asteroid_NRM.png";
 
 	continuousHeightData = new float[width*width];
 
@@ -18,7 +21,22 @@ Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
 			float x = ((i / (width - 1.0f)) - (0.5f))*KILOMETER;
 			float z = ((j / (width - 1.0f)) - (0.5f))*KILOMETER;
 			float y =  perlin->Get(i, j);
-			GetVertices().push_back({ { x, y, z }, { (i / (float)width) * 20, (j / (float)width) * 20 }, { 0.0f, 0.0f, 0.0f } });
+			glm::vec3 pos = glm::vec3(x, y, z);
+			
+
+
+			float falloff = 50 * METER;
+			if (glm::distance(pos, glm::vec3(0))>0.4f*KILOMETER + falloff){
+				y += 50.0f*METER;
+			}
+			else if (glm::distance(pos, glm::vec3(0))>0.4f*KILOMETER){
+				float diff = glm::distance(pos, glm::vec3(0)) - 0.4f*KILOMETER;
+				float falloff = 50 * METER;
+				y += 50.0f*METER*(diff / falloff);
+
+			}
+
+			GetVertices().push_back({ { x, y, z }, { (i / (float)width) * 8, (j / (float)width) * 8 }, { 0.0f, 0.0f, 0.0f } });
 
 			continuousHeightData[i + j*width] = y;
 		}
@@ -32,21 +50,7 @@ Terrain::Terrain(btDiscreteDynamicsWorld* worldN, uint widthN, int seed)
 	}
 
 
-	for (GLuint i = 0; i < GetVertices().size(); i++){
-		glm::vec3 pos= GetVertices().at(i).position;
-		float falloff = 50 * METER;
-		if (glm::distance(pos, glm::vec3(0))>0.4f*KILOMETER + falloff){
-			GetVertices().at(i).position += glm::vec3(0, 50.0f*METER, 0);
-		}
-		else if (glm::distance(pos,glm::vec3(0))>0.4f*KILOMETER){
-			float diff = glm::distance(pos, glm::vec3(0)) - 0.4f*KILOMETER;
-			float falloff = 50 * METER;
-			GetVertices().at(i).position += glm::vec3(0, 50.0f*METER*(diff / falloff), 0);
-
-		}
-		
-	}
-
+	textureName = "asteroid.png";
 
 	GetNormals();
 
