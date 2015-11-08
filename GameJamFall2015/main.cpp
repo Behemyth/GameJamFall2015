@@ -204,6 +204,31 @@ void Run() {
 		Object* alienP = alien;
 		objects.push_back(alienP);
 
+
+		std::vector<glm::vec3> planetVecs;
+		std::uniform_int_distribution<int> numDistro(6, 13);
+		int numPlanets = GetDistribution(numDistro);
+
+		for (int i = 0; i < numPlanets; i++) {
+			glm::vec3 newVec;
+			bool ok = false;
+			while (!ok) {
+				newVec = glm::vec3((rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER);
+				ok = true;
+				for (int j = 0; j < planetVecs.size(); j++) {
+					if ((glm::length(newVec - planetVecs[j]) < (200 * METER))
+						|| (abs(glm::length(planetVecs[j] - glm::vec3(0, 0, 0)) - glm::length(newVec - glm::vec3(0, 0, 0))) < 200 * METER)){
+						ok = false;
+					}
+				}
+			}
+			planetVecs.push_back(newVec);
+			Planet* planet = new Planet(world, newVec);
+			Object* planetP = planet;
+			objects.push_back(planetP);
+		}
+
+
 		//timer info for loop
 		double t = 0.0f;
 		double currentTime = glfwGetTime();
