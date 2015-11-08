@@ -21,7 +21,7 @@ public:
 
 	float orbitAngle;
 	float orbitRate;
-
+	 
 
 	/*lat = py / height * 180- 90;
 lon = px / width * 360-180;
