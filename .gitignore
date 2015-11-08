@@ -39,6 +39,9 @@ dlldata.c
 *_p.c
 *_i.h
 *.ilk
+*.tlog
+*.exe
+*.idb
 *.meta
 *.pch
 *.pdb
