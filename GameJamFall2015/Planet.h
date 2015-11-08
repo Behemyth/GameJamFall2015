@@ -27,7 +27,7 @@ public:
 lon = px / width * 360-180;
 r = Math.cos(DEG_TO_RAD *  lat);
 
-//range between 0-1
+//range between 0-1 
 _x = (r * Math.cos (DEG_TO_RAD * lon) +1)*.5
 _y = (Math.sin (DEG_TO_RAD * lat)+1)*.5
 _z = (r * Math.sin(DEG_TO_RAD * lon)+1)*.5*/
