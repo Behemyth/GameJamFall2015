@@ -108,20 +108,20 @@ void InitializeWindow() {
 	//}
 	//else if (window == WINDOWED) {
 
-		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-		mainThread = glfwCreateWindow(SCREEN_SIZE.x, SCREEN_SIZE.y, "Space Trip", NULL, NULL);
+		//glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+		//mainThread = glfwCreateWindow(SCREEN_SIZE.x, SCREEN_SIZE.y, "Space Trip", NULL, NULL);
 
 	//}
 	//else if (BORDERLESS) {
 
 	//	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
-	//	const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-	//	glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-	//	glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-	//	glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-	//	glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-	//	mainThread = glfwCreateWindow(mode->width, mode->height, "LifeSim", glfwGetPrimaryMonitor(), NULL);
+		const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+		glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+		glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+		glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+		glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+		mainThread = glfwCreateWindow(mode->width, mode->height, "LifeSim", glfwGetPrimaryMonitor(), NULL);
 
 	//}
 
