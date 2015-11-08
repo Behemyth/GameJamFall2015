@@ -108,7 +108,7 @@ void InitializeWindow() {
 	//else if (window == WINDOWED) {
 
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-		mainThread = glfwCreateWindow(SCREEN_SIZE.x, SCREEN_SIZE.y, "LifeSim", NULL, NULL);
+		mainThread = glfwCreateWindow(SCREEN_SIZE.x, SCREEN_SIZE.y, "Space Trip", NULL, NULL);
 
 	//}
 	//else if (BORDERLESS) {
@@ -355,15 +355,9 @@ void MouseInput() {
 void CameraInput() {
 	double moveSpeed;
 	glm::vec3 oldPos=camera.position();
-	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+
 		moveSpeed = 50 * METER * deltaTime;
-	}
-	else if (glfwGetKey(mainThread, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
-		moveSpeed = 1 * METER * deltaTime;
-	}
-	else {
-		moveSpeed = 4.5 * METER * deltaTime;
-	}
+
 
 
 	if (glfwGetKey(mainThread, GLFW_KEY_S) == GLFW_PRESS) {
