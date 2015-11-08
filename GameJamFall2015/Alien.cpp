@@ -3,6 +3,10 @@
 const float TIMEMAX = 15.0f;
 Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN, irrklang::ISoundEngine* soundN, uint speciesN)
 {
+
+	direction = true;
+	std::uniform_real_distribution<float> distro79(-1.0f, 1.0f);
+	side = GetDistribution(distro79);
 	float radius = 0.4*KILOMETER;
 	species = speciesN;
 	std::uniform_real_distribution<float> distro78(0.0f, 5.0f);
@@ -120,6 +124,25 @@ void Alien::UpdatePosition(){
 	//float angle = glm::atan(ang2.y - ang1.y, ang2.x - ang1.x)*glm::atan(ang2.y - ang1.y, ang2.x - ang1.x);
 	position = position*rotat;
 
+	if (direction){
+		side += 0.1f;
+		if (side>1.0f){
+			side = 1.0f;
+			direction = !direction;
+		}
+		
+	}
+	else{
+		side -= 0.1f;
+		if (side<-1.0f){
+			side = -1.0f;
+			direction = !direction;
+		}
+	}
+
+	
+
+	position = glm::rotate(position,glm::radians(side*10.0f),glm::vec3(0.0f,0.0f,1.0f));
 
 }
 Alien::~Alien()
