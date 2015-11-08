@@ -243,7 +243,7 @@ void Run() {
 			int check = 0;
 			while (!ok) {
 				check++;
-				if (check > 500) {
+				if (check > 100) {
 					std::cout << "planet not placed\n";
 					break;
 				}
