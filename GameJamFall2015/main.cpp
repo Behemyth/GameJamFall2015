@@ -8,6 +8,7 @@
 #include "Terrain.h"
 #include "Skybox.h"
 #include "Alien.h"
+#include "Planet.h"
 
 //Function List
 void Update(double);
