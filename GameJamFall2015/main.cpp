@@ -5,8 +5,9 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Object.h"
-#include "Hand.h"
-#include "Planet.h"
+#include "Terrain.h"
+#include "Skybox.h"
+#include "Alien.h"
 
 //Function List
 void Update(double);
@@ -32,7 +33,6 @@ int seed;
 bool wireframeToggle;
 double wireframeTimer;
 std::vector<Object*> objects;
-
 
 void Terminate() {
 	glfwTerminate();
@@ -189,38 +189,20 @@ void Run() {
 
 		// The world.
 		btDiscreteDynamicsWorld* world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-		world->setGravity(btVector3(0, -9.82f*METER, 0));
+		world->setGravity(btVector3(0, -9.82*METER, 0));
 
 
-		std::vector<glm::vec3> planetVecs;
-		std::uniform_int_distribution<int> numDistro(6, 13);
-		int numPlanets = GetDistribution(numDistro);
+		Skybox* hand = new Skybox(world);
+		Object* handP = hand;
+		objects.push_back(handP);
 
-		for (int i = 0; i < numPlanets; i++) {
-			glm::vec3 newVec;
-			bool ok = false;
-			while (!ok) {
-				newVec = glm::vec3((rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER);
-				ok = true;
-				for (int j = 0; j < planetVecs.size(); j++) {
-					if ((glm::length(newVec - planetVecs[j]) < (200 * METER)) 
-						|| (abs(glm::length(planetVecs[j] - glm::vec3(0,0,0)) - glm::length(newVec - glm::vec3(0,0,0))) < 200*METER)){
-						ok = false;
-					}
-				}
-			}
-			planetVecs.push_back(newVec);
-			Planet* planet = new Planet(world, newVec);
-			Object* planetP = planet;
-			objects.push_back(planetP);
-		}
+		Terrain* terrain = new Terrain(world, 500,seed);
+		Object* terrainP = terrain;
+		objects.push_back(terrainP);
 
-
-		//Hand* hand = new Hand(world);
-		//Object* handP = hand;
-		//objects.push_back(handP);
-
-		//GLDebugDrawer debugDraw= GLDebugDrawer(&camera);
+		Alien* alien = new Alien(world, terrain,&camera);
+		Object* alienP = alien;
+		objects.push_back(alienP);
 
 		//timer info for loop
 		double t = 0.0f;
@@ -256,7 +238,7 @@ void Run() {
 				glfwPollEvents(); //executes all set input callbacks
 
 				CameraInput(); //bypasses input system for direct camera manipulation
-
+				camera._position.y = terrain->GetHeight(camera._position.x, camera._position.z)+5*METER;
 				//if (runPhysics){	
 					Update(deltaTime*timeMod); //updates all objects based on the constant deltaTime.
 					world->stepSimulation(deltaTime*timeMod, glm::max(10 * timeMod,10.0));
@@ -272,7 +254,7 @@ void Run() {
 
 
 			//draw
-			glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 
@@ -320,7 +302,7 @@ void MouseInput() {
 void CameraInput() {
 	double moveSpeed;
 	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		moveSpeed = 400 * METER * deltaTime;
+		moveSpeed = 50 * METER * deltaTime;
 	}
 	else if (glfwGetKey(mainThread, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
 		moveSpeed = 1 * METER * deltaTime;

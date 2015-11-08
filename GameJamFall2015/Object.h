@@ -32,8 +32,13 @@ protected:
 	btCollisionShape* shape;
 	btRigidBody* rigidBody;
 	glm::mat4 position;
+	glm::mat4 positionNormal;
 	char* textureName;
-	
+	char* displacementName;
+	char* normalName;
+	char* fragmentName;
+	char* vertexName;
+
 	void NormalizeScale(glm::vec3);
 
 private:
@@ -41,6 +46,8 @@ private:
 	std::vector<Index> indices;
 
 	Texture* texture;
+	Texture* displacement;
+	Texture* normal;
 
 	Bitmap LoadBmp(const char*);
 	Texture* LoadTexture(Bitmap);
@@ -51,6 +58,9 @@ private:
 	GLuint cameraUniform;
 	GLuint posUniform;
 	GLuint texUniform;
+	GLuint disUniform;
+	GLuint normUniform;
+	GLuint posNormUniform;
 
 	shading::ShaderSupport* shader;
 	GLuint vao;
