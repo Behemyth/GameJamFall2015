@@ -207,7 +207,7 @@ void Run() {
 
 
 		std::vector<glm::vec3> planetVecs;
-		std::uniform_int_distribution<int> numDistro(6, 13);
+		std::uniform_int_distribution<int> numDistro(25, 30);
 		int numPlanets = GetDistribution(numDistro);
 
 		for (int i = 0; i < numPlanets; i++) {

@@ -36,7 +36,7 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 	continuousHeightData = new float[width*width];
 
 	bool isStar = false;
-	if (rand() % 100 < 10) {
+	if (rand() % 100 < 0) {
 		isStar = true;
 	}
 
