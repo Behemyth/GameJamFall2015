@@ -82,6 +82,15 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	else if (species == 11){
 		textureName = "alien11.png";
 	}
+	else if (species == 12){
+		textureName = "alien12.png";
+	}
+	else if (species == 13){
+		textureName = "alien13.png";
+	}
+	else if (species == 14){
+		textureName = "alien14.png";
+	}
 	else if (species == 0){
 		textureName = "man.png";
 	}
@@ -115,18 +124,27 @@ void Alien::Update(double dt){
 					filename = "mustgetout.mp3";
 				}
 				else if (species == 7){
-					filename = "ohmy.wav";
+					filename = "whatarethose.wav";
 				}
 				else if (species == 8){
-					filename = "ohmy.wav";
+					filename = "shirley.wav";
 				}
 				else if (species == 9){
-					filename = "ohmy.wav";
+					filename = "dis.wav";
 				}
 				else if (species == 10){
 					filename = "ohmy.wav";
 				}
 				else if (species == 11){
+					filename = "ohmy.wav";
+				}
+				else if (species == 12){
+					filename = "dis.wav";
+				}
+				else if (species == 13){
+					filename = "ohmy.wav";
+				}
+				else if (species == 14){
 					filename = "ohmy.wav";
 				}
 				else if (species == 0){
