@@ -1,0 +1,29 @@
+#version 420 core
+
+in vec3 normal_FS_in;
+in vec2 frag_FS_in;
+in vec4 vertex_FS_in;
+
+out vec4 fragment;
+
+
+uniform sampler2D tex;
+uniform sampler2D norm;
+
+vec4 ambientLight=vec4(0.9,0.9,0.9,1.0); 
+vec4 lightColor=vec4(0.9,0.9,0.9,1.0); 
+
+vec3 lightNormal=vec3(0.0f,1.0f,0.0f);
+	
+
+void main(){
+
+	vec3 normal = normalize(normal_FS_in+texture(norm, frag_FS_in).rgb);
+
+	float intensity = max(dot(lightNormal, normal),0.0);
+
+	vec4 color=texture(tex, frag_FS_in);
+
+	vec3 calcColor = mix(ambientLight.rgb*color.rgb,color.rgb,intensity);
+	fragment = vec4(calcColor, color.w);
+}
