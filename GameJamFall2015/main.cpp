@@ -215,7 +215,7 @@ void Run() {
 		terrain = new Terrain(world, KILOMETER,500,seed);
 		Object* terrainP = terrain;
 		objects.push_back(terrainP);
-		for (int i = 1; i < 10; i++){
+		for (int i = 1; i < 5; i++){
 			Rock* rock = new Rock(world, terrain);
 			Object* rockP = rock;
 			objects.push_back(rockP);

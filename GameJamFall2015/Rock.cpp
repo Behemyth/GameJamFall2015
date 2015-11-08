@@ -16,10 +16,10 @@ Rock::Rock(btDiscreteDynamicsWorld* worldN,Terrain* terrainN)
 	position = glm::translate(glm::mat4(), glm::vec3(x, terrain->GetHeight(x,y), y));
 
 
-	std::uniform_real_distribution<float> distro2(1.0f*METER, 5.0f*METER);
+	std::uniform_real_distribution<float> distro2(7.0f*METER, 12.0f*METER);
 	float size = GetDistribution(distro2);
 	ExtractFromFile("rock1.obj");
-	NormalizeScale(glm::vec3(2.0f*METER));
+	NormalizeScale(glm::vec3(size));
 
 	textureName = "rock.png";
 
