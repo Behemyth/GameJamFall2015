@@ -1,6 +1,6 @@
 #include "Rand.h"
 
-std::mt19937 generator = std::mt19937(uint(std::chrono::high_resolution_clock::now().time_since_epoch().count()));
+std::mt19937 generator = std::mt19937(uint(time(NULL)));
 
 //Uniform Random Floating Point Number
 float GetDistribution(std::uniform_real_distribution<float> distro) {

@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "Object.h"
 #include "Hand.h"
+#include "Planet.h"
 
 //Function List
 void Update(double);
@@ -191,9 +192,32 @@ void Run() {
 		world->setGravity(btVector3(0, -9.82f*METER, 0));
 
 
-		Hand* hand = new Hand(world);
-		Object* handP = hand;
-		objects.push_back(handP);
+		std::vector<glm::vec3> planetVecs;
+		std::uniform_int_distribution<int> numDistro(6, 13);
+		int numPlanets = GetDistribution(numDistro);
+
+		for (int i = 0; i < numPlanets; i++) {
+			glm::vec3 newVec;
+			bool ok = false;
+			while (!ok) {
+				newVec = glm::vec3((rand() % 2000 - 1000) * METER, (rand() % 2000 - 1000) * METER, (rand() % 2000 - 1000) * METER);
+				ok = true;
+				for (int j = 0; j < planetVecs.size(); j++) {
+					if (glm::length(newVec - planetVecs[j]) < (20 * METER)) {
+						ok = false;
+					}
+				}
+			}
+			planetVecs.push_back(newVec);
+			Planet* planet = new Planet(world, newVec);
+			Object* planetP = planet;
+			objects.push_back(planetP);
+		}
+
+
+		//Hand* hand = new Hand(world);
+		//Object* handP = hand;
+		//objects.push_back(handP);
 
 		//GLDebugDrawer debugDraw= GLDebugDrawer(&camera);
 
@@ -302,7 +326,7 @@ void MouseInput() {
 void CameraInput() {
 	double moveSpeed;
 	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		moveSpeed = 50 * METER * deltaTime;
+		moveSpeed = 400 * METER * deltaTime;
 	}
 	else if (glfwGetKey(mainThread, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
 		moveSpeed = 1 * METER * deltaTime;
