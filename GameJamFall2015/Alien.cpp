@@ -18,6 +18,8 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN,Terrain* terrianN,Camera* cameraN)
 	GetIndices().push_back({ glm::uvec3(2, 0, 1)});
 	GetIndices().push_back({ glm::uvec3(2, 1, 3) });
 
+
+
 	textureName = "alien.png";
 
 

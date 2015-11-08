@@ -15,7 +15,6 @@
 #define EPSILON 0.000001f
 
 #define CUTOFF 0.4f*KILOMETER
-
 //Difference threshold within seperating "species"
 #define DELTA 1000
 
