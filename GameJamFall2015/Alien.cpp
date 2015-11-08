@@ -8,16 +8,18 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	std::normal_distribution<float> distro78(0.0f,5.0f);
 	timer = GetDistribution(distro78);
 	sound = soundN;
-
-	std::normal_distribution<float> startDistro(0, 100*METER);
+	
+	prevAngle = 0.0f;
+	prevVeloc = 0.0f;
+	std::normal_distribution<float> startDistro(0.0f, 100*METER);
 	translate = glm::vec3(GetDistribution(startDistro), GetDistribution(startDistro), GetDistribution(startDistro));
+	//translate = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	rotate = glm::vec3(1.0f, 0.0f, 0.0f);
 	terrain = terrianN;
 	world = worldN;
 	camera = cameraN;
-	prevAngle = 0;
-	prevVeloc = 0;
+
 	fragmentName = "fragment-shader[none].txt";
 	float height = 5.0f*METER;
 	GetVertices().push_back({ { -height / 3.0f, height, 0.0f }, { 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
@@ -126,19 +128,19 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 
 	float radius = 0.4*KILOMETER;
 	glm::vec3 center(0, 0, 0);
-	std::normal_distribution<float> velDistro(1, 2);
+	//std::normal_distribution<float> velDistro(1, 2);
 	float velocity = (1 / glm::length(alien - player)) * METER*100;
-	float angle = 0;
+	float angle = 0.0f;
 
-	//If alien is far away:
+
 	glm::vec2 alien2D(alien.x, alien.z);
 	if (abs(radius - length(alien2D)) < (radius/8)) {
 		float currentLoc = glm::degrees(atan2(alien.z, alien.x));
 		if (currentLoc < 0) {
 			currentLoc = 360 + currentLoc;
 		}
-		std::normal_distribution<float> distro3(currentLoc-15.0, currentLoc+15.0);
-		angle = GetDistribution(distro3);
+		std::normal_distribution<float> distro1(currentLoc-15.0f, currentLoc+15.0f);
+		angle = GetDistribution(distro1);
 		if (angle < 0) {
 			angle = 360 + angle;
 		}
@@ -148,7 +150,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 	}
 
 	else if (glm::length(alien - player) > (radius/4)) {
-		std::normal_distribution<float> distro2(prevAngle-30.0, prevAngle+30.0);
+		std::normal_distribution<float> distro2(prevAngle-30.0f, prevAngle+30.0f);
 		angle = GetDistribution(distro2);
 		if (angle < 0) {
 			angle = 360 + angle;
@@ -163,7 +165,7 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 		if (playerLoc < 0) {
 			playerLoc = 360 + playerLoc;
 		}
-		std::normal_distribution<float> distro3(playerLoc-15.0, playerLoc + 15.0);
+		std::normal_distribution<float> distro3(playerLoc-15.0f, playerLoc + 15.0f);
 		angle = GetDistribution(distro3);
 		if (angle < 0) {
 			angle = 360 + angle;
@@ -173,17 +175,6 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 		}
 	}
 
-	//If alien is closer, always move away: 
-	/*else {
-		if (randomNumber(0, distance from alien to wall) > a value) {
-			float angle = randomNumber(angles away from player);
-		}
-		else {
-			float angle = randomNumber(angles away from wall and player)
-		}
-
-	}*/
-
 	if ((rand() % 100) < 98) {
 		angle = prevAngle;
 		velocity = prevVeloc;
@@ -191,11 +182,11 @@ glm::vec3 Alien::alienMovement(glm::vec3 alien, glm::vec3 player) {
 
 
 	prevVeloc = velocity;
-	prevAngle = angle;
+	prevAngle = (float)angle;
 	alien.x = alien.x + (velocity * cos(glm::radians(angle)));
-	alien.z = alien.z + (velocity * sin(glm::radians(angle)));
+	alien.z = alien.z + (velocity * sin(glm::radians(angle))); 
 	alien.y = terrain->GetHeight(alien.x, alien.z);
-
+	
 	return alien;
 
 }
