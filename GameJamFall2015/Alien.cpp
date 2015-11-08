@@ -4,7 +4,8 @@
 Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN, irrklang::ISoundEngine* soundN, uint speciesN)
 {
 	species = speciesN;
-	timer = 0;
+	std::normal_distribution<float> distro78(0.0f,5.0f);
+	timer = GetDistribution(distro78);
 	sound = soundN;
 	translate = glm::vec3(0, 0, 0);
 	rotate = glm::vec3(1.0f, 0.0f, 0.0f);
@@ -51,35 +52,36 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 void Alien::Update(double dt){
 	
 	timer += dt;
-	if (glm::distance(camera->position(),translate)<20.0f*METER){
-		if (timer > 5.0f){
-			char* filename="";
-			if (species == 1){
-				filename = "lisa.wav";
-			}
-			else if (species == 2){
-				filename = "ohmy.wav";
-			}
-			else if (species == 3){
-				filename = "nyehehe.mp3";
-			}
-			else if (species == 4){
-				filename = "ohmy.wav";
-			}
-			else if (species == 5){
-				filename = "ohmy.wav";
-			}
-			else if (species == 6){
-				filename = "ohmy.wav";
-			}
-			else if (species == 7){
-				filename = "ohmy.wav";
-			}
-			irrklang::ISound* s=sound->play3D(filename, irrklang::vec3df(translate.x, translate.y, translate.z), false, false, true);
-			s->setVolume(1.0f);
-			s->setMinDistance(1.0f*KILOMETER);
-			s->setPosition(irrklang::vec3df(0, 0, 0));
-			timer = 0;
+	if (timer >= 5.0f){
+		timer = 5.0f;
+		if (glm::distance(camera->position(), translate) < 20.0f*METER){
+				char* filename = "";
+				if (species == 1){
+					filename = "lisa.wav";
+				}
+				else if (species == 2){
+					filename = "ohmy.wav";
+				}
+				else if (species == 3){
+					filename = "nyehehe.mp3";
+				}
+				else if (species == 4){
+					filename = "ohmy.wav";
+				}
+				else if (species == 5){
+					filename = "ohmy.wav";
+				}
+				else if (species == 6){
+					filename = "ohmy.wav";
+				}
+				else if (species == 7){
+					filename = "ohmy.wav";
+				}
+				irrklang::ISound* s = sound->play3D(filename, irrklang::vec3df(translate.x, translate.y, translate.z), false, false, true);
+				s->setVolume(1.0f);
+				s->setMinDistance(1.0f*KILOMETER);
+				s->setPosition(irrklang::vec3df(0, 0, 0));
+				timer = 0;
 		}
 	}
 }
