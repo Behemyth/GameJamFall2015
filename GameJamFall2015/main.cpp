@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Input.h"
 #include "Object.h"
+#include "Terrain.h"
 #include "Hand.h"
 
 //Function List
@@ -31,7 +32,6 @@ int seed;
 bool wireframeToggle;
 double wireframeTimer;
 std::vector<Object*> objects;
-
 
 void Terminate() {
 	glfwTerminate();
@@ -188,12 +188,16 @@ void Run() {
 
 		// The world.
 		btDiscreteDynamicsWorld* world = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-		world->setGravity(btVector3(0, 0*METER, 0));
+		world->setGravity(btVector3(0, -9.82*METER, 0));
 
 
 		Hand* hand = new Hand(world);
 		Object* handP = hand;
 		objects.push_back(handP);
+
+		Terrain* terrain = new Terrain(world, 200,seed);
+		Object* terrainP = terrain;
+		objects.push_back(terrainP);
 
 		//timer info for loop
 		double t = 0.0f;
@@ -229,7 +233,7 @@ void Run() {
 				glfwPollEvents(); //executes all set input callbacks
 
 				CameraInput(); //bypasses input system for direct camera manipulation
-
+				camera._position GetHeight
 				//if (runPhysics){	
 					Update(deltaTime*timeMod); //updates all objects based on the constant deltaTime.
 					world->stepSimulation(deltaTime*timeMod, glm::max(10 * timeMod,10.0));
@@ -245,7 +249,7 @@ void Run() {
 
 
 			//draw
-			glClearColor(1.0f, 1.0f, 1.0f, 0.0f);
+			glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 

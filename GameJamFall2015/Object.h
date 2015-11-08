@@ -32,6 +32,7 @@ protected:
 	btCollisionShape* shape;
 	btRigidBody* rigidBody;
 	glm::mat4 position;
+	glm::mat4 positionNormal;
 	char* textureName;
 	
 	void NormalizeScale(glm::vec3);
@@ -51,6 +52,7 @@ private:
 	GLuint cameraUniform;
 	GLuint posUniform;
 	GLuint texUniform;
+	GLuint posNormUniform;
 
 	shading::ShaderSupport* shader;
 	GLuint vao;

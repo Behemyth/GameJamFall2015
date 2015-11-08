@@ -131,6 +131,7 @@
     <ClCompile Include="rand.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderSupport.cpp" />
+    <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -148,6 +149,7 @@
     <ClInclude Include="rand.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderSupport.h" />
+    <ClInclude Include="Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Typedefs.h" />
   </ItemGroup>

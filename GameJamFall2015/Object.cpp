@@ -6,6 +6,7 @@ Object::Object()
 	isStatic = false;
 	isGhost = false;
 	position = glm::mat4();
+	textureName = "dirt.jpg";
 }
 
 
@@ -62,7 +63,7 @@ void Object::Draw(Camera& camera)
 		glBindVertexArray(vao);
 		shader->setUniform(cameraUniform, camera.matrix());
 		shader->setUniform(texUniform, 0);
-
+		shader->setUniform(posNormUniform, glm::inverse(glm::transpose(position)));
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texture->object());
 
@@ -122,6 +123,7 @@ void Object::Load(){
 
 	shader = LoadShaders("vertex-shader[basic].txt", "geometry-shader[basic].txt","fragment-shader[basic].txt");
 	cameraUniform = shader->uniform("camera");
+	posNormUniform = shader->uniform("normalPos");
 	texUniform = shader->uniform("tex");
 	posUniform = shader->uniform("position");
 	texture = LoadTexture(LoadBmp(textureName));

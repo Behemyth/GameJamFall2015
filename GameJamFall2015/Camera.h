@@ -104,6 +104,8 @@
          This is the complete matrix to use in the vertex shader.
          */
         glm::mat4 matrix() const;
+
+
     private:
 		Camera* cameraExtract;
         glm::vec3 _position;
