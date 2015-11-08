@@ -26,4 +26,10 @@ void main(){
 
 	vec3 calcColor = mix(ambientLight.rgb*color.rgb,color.rgb,intensity);
 	fragment = vec4(calcColor, color.w);
+
+	if(color.w == 0.0f){
+        discard;
+    }
+
+    fragment = vec4(calcColor, color.w);
 }

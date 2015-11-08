@@ -1,6 +1,6 @@
 #include "Alien.h"
 
-
+const float TIMEMAX = 15.0f;
 Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN, irrklang::ISoundEngine* soundN, uint speciesN)
 {
 	float radius = 0.4*KILOMETER;
@@ -58,8 +58,8 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 void Alien::Update(double dt){
 	
 	timer += dt;
-	if (timer >= 5.0f){
-		timer = 5.0f;
+	if (timer >= TIMEMAX){
+		timer = TIMEMAX;
 		if (glm::distance(camera->position(), translate) < 20.0f*METER){
 				char* filename = "";
 				if (species == 1){
