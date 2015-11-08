@@ -11,7 +11,7 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	
 	prevAngle = 0.0f;
 	prevVeloc = 0.0f;
-	std::uniform_real_distribution<float> startDistro(0.0f, 100 * METER);
+	std::uniform_real_distribution<float> startDistro(-200 * METER, 200 * METER);
 	translate = glm::vec3(GetDistribution(startDistro), GetDistribution(startDistro), GetDistribution(startDistro));
 	//translate = glm::vec3(0.0f, 0.0f, 0.0f);
 

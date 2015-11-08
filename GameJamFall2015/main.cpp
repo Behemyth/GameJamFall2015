@@ -221,7 +221,7 @@ void Run() {
 		objects.push_back(rockP);
 
 
-		for (int i = 1; i < 25;i++){
+		for (int i = 1; i < 50;i++){
 			int r = rand() % 7 + 1;
 			Alien* alien = new Alien(world, terrain, &camera, engine, r);
 			Object* alienP = alien;
