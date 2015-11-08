@@ -11,6 +11,11 @@ public:
 	void Update(double);
 	void UpdatePosition();
 
+	glm::vec3 alienMovement(glm::vec3, glm::vec3);
+
+	float prevAngle;
+	float prevVeloc;
+
 	~Alien();
 private:
 	glm::vec3 translate;

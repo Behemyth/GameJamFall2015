@@ -213,7 +213,13 @@ void Run() {
 		for (int i = 0; i < numPlanets; i++) {
 			glm::vec3 newVec;
 			bool ok = false;
+			int check = 0;
 			while (!ok) {
+				check++;
+				if (check > 500) {
+					std::cout << "planet not placed\n";
+					break;
+				}
 				newVec = glm::vec3((rand() % 2000 + 500) * METER * (-1 + 2*((rand() % 100)<50)), 
 					(rand() % 2000 + 500) * METER * (-1 + 2*((rand() % 100)<50)), (rand() % 2000 + 500) * METER * (-1 + 2*((rand() % 100)<50)));
 				ok = true;
