@@ -56,7 +56,21 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	else if (species == 7){
 		textureName = "alien7.png";
 	}
-
+	else if (species == 8){
+		textureName = "alien8.png";
+	}
+	else if (species == 9){
+		textureName = "alien9.png";
+	}
+	else if (species == 10){
+		textureName = "alien10.png";
+	}
+	else if (species == 11){
+		textureName = "alien11.png";
+	}
+	else if (species == 0){
+		textureName = "man.png";
+	}
 	shape = new btBoxShape(btVector3(0.1f*METER, 0.5f*METER, 0.1f*METER));
 
 	Load(); //loads drawing related stuff. Call after vertices/indices have been defined
@@ -87,6 +101,21 @@ void Alien::Update(double dt){
 					filename = "mustgetout.mp3";
 				}
 				else if (species == 7){
+					filename = "ohmy.wav";
+				}
+				else if (species == 8){
+					filename = "ohmy.wav";
+				}
+				else if (species == 9){
+					filename = "ohmy.wav";
+				}
+				else if (species == 10){
+					filename = "ohmy.wav";
+				}
+				else if (species == 11){
+					filename = "ohmy.wav";
+				}
+				else if (species == 0){
 					filename = "ohmy.wav";
 				}
 				irrklang::ISound* s = sound->play3D(filename, irrklang::vec3df(translate.x, translate.y, translate.z), false, false, true);
