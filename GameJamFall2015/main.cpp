@@ -207,18 +207,19 @@ void Run() {
 
 
 		std::vector<glm::vec3> planetVecs;
-		std::uniform_int_distribution<int> numDistro(25, 30);
+		std::uniform_int_distribution<int> numDistro(10, 20);
 		int numPlanets = GetDistribution(numDistro);
 
 		for (int i = 0; i < numPlanets; i++) {
 			glm::vec3 newVec;
 			bool ok = false;
 			while (!ok) {
-				newVec = glm::vec3((rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER);
+				newVec = glm::vec3((rand() % 2000 + 500) * METER * (-1 + 2*((rand() % 100)<50)), 
+					(rand() % 2000 + 500) * METER * (-1 + 2*((rand() % 100)<50)), (rand() % 2000 + 500) * METER * (-1 + 2*((rand() % 100)<50)));
 				ok = true;
 				for (int j = 0; j < planetVecs.size(); j++) {
-					if ((glm::length(newVec - planetVecs[j]) < (200 * METER))
-						|| (abs(glm::length(planetVecs[j] - glm::vec3(0, 0, 0)) - glm::length(newVec - glm::vec3(0, 0, 0))) < 200 * METER)){
+					if ((glm::length(newVec - planetVecs[j]) < (160 * METER))
+						|| (abs(glm::length(planetVecs[j] - glm::vec3(0, 0, 0)) - glm::length(newVec - glm::vec3(0, 0, 0)))) < (160 * METER)){
 						ok = false;
 					}
 				}

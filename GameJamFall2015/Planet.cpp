@@ -6,11 +6,13 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 	translate = offset;
 	isGhost = true;
 	rotateAngle = 0;
-	std::normal_distribution<float> rotateDistro(.1, .5);
+	rotateAxisAngle = rand() % 360;
+
+	std::normal_distribution<float> rotateDistro(.05, .2);
 	rotateRate = GetDistribution(rotateDistro);
 
 	orbitAngle = 0;
-	std::normal_distribution<float> orbitDistro(.05, .1);
+	std::normal_distribution<float> orbitDistro(.02, .05);
 	orbitRate = GetDistribution(orbitDistro);
 
 	world = worldN;
@@ -41,7 +43,7 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 	}
 
 
-	std::uniform_int_distribution<int> sizeDistro(50, 150);
+	std::uniform_int_distribution<int> sizeDistro(30, 150);
 	int size = GetDistribution(sizeDistro);
 
 	for (int i = 0; i < width; i++) {
@@ -58,7 +60,7 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 
 
 			if(isStar) {
-				std::normal_distribution<float> sizeDistro(50, 150);
+				std::normal_distribution<float> sizeDistro(30, 70);
 				size = GetDistribution(sizeDistro);
 			}
 
@@ -132,7 +134,8 @@ void Planet::UpdatePosition() {
 	if (orbitAngle > 360) {
 		orbitAngle = 0;
 	}
-	position = glm::rotate(glm::mat4(), glm::radians(orbitAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	position = glm::rotate(glm::mat4(), glm::radians(orbitAngle), glm::vec3(cos(rotateAxisAngle), 0.0f, sin(rotateAxisAngle)));
 	position = glm::translate(position, translate);
 	position = glm::rotate(position, glm::radians(rotateAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 }

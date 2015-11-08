@@ -18,6 +18,7 @@ public:
 	glm::vec3 translate;
 	float rotateAngle;
 	float rotateRate;
+	int rotateAxisAngle;
 
 	float orbitAngle;
 	float orbitRate;
