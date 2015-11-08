@@ -35,6 +35,8 @@ bool wireframeToggle;
 double wireframeTimer;
 std::vector<Object*> objects;
 
+Terrain* terrain;
+
 void Terminate() {
 	glfwTerminate();
 	exit(0);
@@ -197,7 +199,7 @@ void Run() {
 		Object* handP = hand;
 		objects.push_back(handP);
 
-		Terrain* terrain = new Terrain(world, 500,seed);
+		terrain = new Terrain(world, KILOMETER,500,seed);
 		Object* terrainP = terrain;
 		objects.push_back(terrainP);
 
@@ -264,7 +266,6 @@ void Run() {
 				glfwPollEvents(); //executes all set input callbacks
 
 				CameraInput(); //bypasses input system for direct camera manipulation
-				camera._position.y = terrain->GetHeight(camera._position.x, camera._position.z)+5*METER;
 				//if (runPhysics){	
 					Update(deltaTime*timeMod); //updates all objects based on the constant deltaTime.
 					world->stepSimulation(deltaTime*timeMod, glm::max(10 * timeMod,10.0));
@@ -327,6 +328,7 @@ void MouseInput() {
 }
 void CameraInput() {
 	double moveSpeed;
+	glm::vec3 oldPos=camera.position();
 	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
 		moveSpeed = 50 * METER * deltaTime;
 	}
@@ -356,6 +358,12 @@ void CameraInput() {
 	else if (glfwGetKey(mainThread, GLFW_KEY_X) == GLFW_PRESS) {
 		camera.offsetPosition(float(moveSpeed) * glm::vec3(0, 1, 0));
 	}
+
+	if (glm::distance(glm::vec3(0), camera.position())>CUTOFF){
+     	camera._position = oldPos;
+	}
+
+	camera._position.y = terrain->GetHeight(camera._position.x, camera._position.z) + 5 * METER;
 }
 void GetPositions(){
 	for (int i = 0; i < objects.size(); i++){

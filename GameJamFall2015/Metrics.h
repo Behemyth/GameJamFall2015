@@ -5,6 +5,7 @@
 
 //example, you pick what you wish
 
+
 #define METER 10.0f
 #define KILOMETER 10000.0f
 #define DECIMETER 1.0f
@@ -12,6 +13,8 @@
 #define MILLIMETER 0.01f
 //Error tolerance for floating point calcualtions
 #define EPSILON 0.000001f
+
+#define CUTOFF 0.4f*KILOMETER
 
 //Difference threshold within seperating "species"
 #define DELTA 1000

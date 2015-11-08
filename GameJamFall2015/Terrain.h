@@ -8,8 +8,9 @@ class Terrain : public Object
 private:
 	uint width;
 	void GetNormals();
+	float radius;
 public:
-	Terrain(btDiscreteDynamicsWorld*, uint, int);
+	Terrain(btDiscreteDynamicsWorld*, float,uint, int);
 	~Terrain();
 
 	float GetHeight(float, float); //returns the height in WORLD coordinates

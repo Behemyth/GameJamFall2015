@@ -34,7 +34,7 @@ glm::mat4 billboard(glm::vec3 position, glm::vec3 cameraPos, glm::vec3 cameraUp)
 	glm::vec3 up2 = cross(look, right);
 	glm::mat4 transform;
 	transform[0] = glm::vec4(right, 0);
-	transform[1] = glm::vec4(glm::vec3(0,1,0), 0);
+	transform[1] = glm::vec4(up2, 0);
 	transform[2] = glm::vec4(look, 0);
 	// Uncomment this line to translate the position as well
 	// (without it, it's just a rotation)
@@ -44,7 +44,7 @@ glm::mat4 billboard(glm::vec3 position, glm::vec3 cameraPos, glm::vec3 cameraUp)
 void Alien::UpdatePosition(){
 	position = glm::translate(glm::mat4(),glm::vec3(translate.x,terrain->GetHeight(0,0)+0.5f*METER,translate.z));
 
-	glm::mat4 rotat = billboard(glm::vec3(translate.x, 0.0f, translate.z), glm::vec3(camera->position().x, 0.0f, camera->position().z), camera->up());
+	glm::mat4 rotat = billboard(glm::vec3(translate.x, 0.0f, translate.z), glm::vec3(camera->position().x, 0.0f, camera->position().z), glm::vec3(0, 1, 0));
 
 	//glm::vec2 ang1 = glm::normalize(glm::vec2(rotate.x, rotate.z));
 	//glm::vec2 ang2 = glm::normalize(glm::vec2(camera->position().x - translate.x, camera->position().z-translate.z));
