@@ -10,7 +10,7 @@ Rock::Rock(btDiscreteDynamicsWorld* worldN,Terrain* terrainN)
 	terrain = terrainN;
 
 
-	std::uniform_real_distribution<float> distro(-KILOMETER*0.4f, KILOMETER *0.4f);
+	std::uniform_real_distribution<float> distro(-KILOMETER*0.3f, KILOMETER *0.3f);
 	float x = GetDistribution(distro);
 	float y = GetDistribution(distro);
 	position = glm::translate(glm::mat4(), glm::vec3(x, terrain->GetHeight(x,y), y));

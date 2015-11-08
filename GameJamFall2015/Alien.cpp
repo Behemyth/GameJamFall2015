@@ -4,6 +4,12 @@ const float TIMEMAX = 15.0f;
 Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN, irrklang::ISoundEngine* soundN, uint speciesN)
 {
 
+
+	terrain = terrianN;
+	world = worldN;
+	camera = cameraN;
+
+
 	direction = true;
 	std::uniform_real_distribution<float> distro79(-1.0f, 1.0f);
 	side = GetDistribution(distro79);
@@ -16,16 +22,24 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	prevAngle = 0.0f;
 	prevVeloc = 0.0f;
 	std::uniform_real_distribution<float> startDistro(-200 * METER, 200 * METER);
-	translate = glm::vec3(GetDistribution(startDistro), GetDistribution(startDistro), GetDistribution(startDistro));
+
+	float transx = GetDistribution(startDistro);
+	float transy = GetDistribution(startDistro);
+	translate = glm::vec3(transx, terrain->GetHeight(transx, transy), transy);
 	//translate = glm::vec3(0.0f, 0.0f, 0.0f);
 
 	rotate = glm::vec3(1.0f, 0.0f, 0.0f);
-	terrain = terrianN;
-	world = worldN;
-	camera = cameraN;
+	
 
 	fragmentName = "fragment-shader[none].txt";
-	float height = 5.0f*METER;
+	float height = 0;
+	if (species == 0){
+		height = 15.0f*METER;
+	}
+	else{
+		height = 5.0f*METER;
+	}
+	
 	GetVertices().push_back({ { -height / 3.0f, height, 0.0f }, { 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
 	GetVertices().push_back({ { height / 3.0f, height, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
 	GetVertices().push_back({ { -height / 3.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } });
@@ -56,7 +70,21 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN
 	else if (species == 7){
 		textureName = "alien7.png";
 	}
-
+	else if (species == 8){
+		textureName = "alien8.png";
+	}
+	else if (species == 9){
+		textureName = "alien9.png";
+	}
+	else if (species == 10){
+		textureName = "alien10.png";
+	}
+	else if (species == 11){
+		textureName = "alien11.png";
+	}
+	else if (species == 0){
+		textureName = "man.png";
+	}
 	shape = new btBoxShape(btVector3(0.1f*METER, 0.5f*METER, 0.1f*METER));
 
 	Load(); //loads drawing related stuff. Call after vertices/indices have been defined
@@ -89,6 +117,21 @@ void Alien::Update(double dt){
 				else if (species == 7){
 					filename = "ohmy.wav";
 				}
+				else if (species == 8){
+					filename = "ohmy.wav";
+				}
+				else if (species == 9){
+					filename = "ohmy.wav";
+				}
+				else if (species == 10){
+					filename = "ohmy.wav";
+				}
+				else if (species == 11){
+					filename = "ohmy.wav";
+				}
+				else if (species == 0){
+					filename = "urgleburgle.wav";
+				}
 				irrklang::ISound* s = sound->play3D(filename, irrklang::vec3df(translate.x, translate.y, translate.z), false, false, true);
 
 				if (s){
@@ -114,8 +157,9 @@ glm::mat4 billboard(glm::vec3 position, glm::vec3 cameraPos, glm::vec3 cameraUp)
 	return transform;
 }
 void Alien::UpdatePosition(){
-	translate = alienMovement(translate, camera->position());
-
+	if (species != 0){
+		translate = alienMovement(translate, camera->position());
+	}
 	float transAdd=0;
 	if (timer != TIMEMAX){
 		float transAdd = 1.5f*METER;
@@ -159,14 +203,14 @@ void Alien::UpdatePosition(){
 		}
 	}
 
-	
-	if (timer != TIMEMAX){
-		position = glm::rotate(position, glm::radians(side*15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	if (species != 0){
+		if (timer != TIMEMAX){
+			position = glm::rotate(position, glm::radians(side*15.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		}
+		else{
+			position = glm::rotate(position, glm::radians(side*10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		}
 	}
-	else{
-		position = glm::rotate(position, glm::radians(side*10.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	}
-
 }
 Alien::~Alien()
 {
