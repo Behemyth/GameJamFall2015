@@ -133,10 +133,10 @@ void Alien::Update(double dt){
 					filename = "dis.wav";
 				}
 				else if (species == 10){
-					filename = "ohmy.wav";
+					filename = "Deception.mp3";
 				}
 				else if (species == 11){
-					filename = "ohmy.wav";
+					filename = "chohc.wav";
 				}
 				else if (species == 12){
 					filename = "dis.wav";
