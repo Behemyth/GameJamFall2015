@@ -3,6 +3,16 @@
 
 Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 {
+	translate = offset;
+	isGhost = true;
+	rotateAngle = 0;
+	std::normal_distribution<float> rotateDistro(.1, .5);
+	rotateRate = GetDistribution(rotateDistro);
+
+	orbitAngle = 0;
+	std::normal_distribution<float> orbitDistro(.05, .1);
+	orbitRate = GetDistribution(orbitDistro);
+
 	world = worldN;
 	
 	std::normal_distribution<float> freqDistro(.01, .15);
@@ -25,22 +35,13 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 
 	continuousHeightData = new float[width*width];
 
-	/*lat = py / height * 180- 90;
-	lon = px / width * 360-180;
-	r = Math.cos(DEG_TO_RAD *  lat);
-
-	//range between 0-1
-	_x = (r * Math.cos (DEG_TO_RAD * lon) +1)*.5
-	_y = (Math.sin (DEG_TO_RAD * lat)+1)*.5
-	_z = (r * Math.sin(DEG_TO_RAD * lon)+1)*.5*/
-
 	bool isStar = false;
-	if (rand() % 100 < 20) {
+	if (rand() % 100 < 10) {
 		isStar = true;
 	}
 
 
-	std::uniform_int_distribution<int> sizeDistro(20, 100);
+	std::uniform_int_distribution<int> sizeDistro(50, 150);
 	int size = GetDistribution(sizeDistro);
 
 	for (int i = 0; i < width; i++) {
@@ -57,7 +58,7 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 
 
 			if(isStar) {
-				std::normal_distribution<float> sizeDistro(20, 60);
+				std::normal_distribution<float> sizeDistro(50, 150);
 				size = GetDistribution(sizeDistro);
 			}
 
@@ -78,7 +79,7 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 			x += heightVec.x;
 			z += heightVec.z;
 			
-			GetVertices().push_back({ { x+offset.x, y+offset.y, z+offset.z }, { i/((float)width/2.0), j/((float)width/2.0) }, { vec1.x, vec1.y, vec1.z } });
+			GetVertices().push_back({ { x, y, z }, { i/((float)width/2.0), j/((float)width/2.0) }, { vec1.x, vec1.y, vec1.z } });
 
 			continuousHeightData[i + j*width] = y;
 		}
@@ -108,6 +109,9 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 	else {
 		textureName = "meteor4.png";
 	}
+	if (isStar) {
+		textureName = "fire.jpg";
+	}
 	float height = 5;
 	shape = new btBoxShape(btVector3(height / 2.0f, height / 2.0f, height / 2.0f));
 
@@ -117,4 +121,18 @@ Planet::Planet(btDiscreteDynamicsWorld* worldN, glm::vec3 offset)
 
 Planet::~Planet()
 {
+}
+
+void Planet::UpdatePosition() {
+	rotateAngle += rotateRate;
+	if (rotateAngle > 360) {
+		rotateAngle = 0;
+	}
+	orbitAngle += orbitRate;
+	if (orbitAngle > 360) {
+		orbitAngle = 0;
+	}
+	position = glm::rotate(glm::mat4(), glm::radians(orbitAngle), glm::vec3(0.0f, 1.0f, 0.0f));
+	position = glm::translate(position, translate);
+	position = glm::rotate(position, glm::radians(rotateAngle), glm::vec3(0.0f, 1.0f, 0.0f));
 }

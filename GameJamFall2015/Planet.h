@@ -14,6 +14,13 @@ public:
 	~Planet();
 
 	float* continuousHeightData;
+	void UpdatePosition();
+	glm::vec3 translate;
+	float rotateAngle;
+	float rotateRate;
+
+	float orbitAngle;
+	float orbitRate;
 
 
 	/*lat = py / height * 180- 90;

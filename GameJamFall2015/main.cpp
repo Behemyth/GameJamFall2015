@@ -200,10 +200,11 @@ void Run() {
 			glm::vec3 newVec;
 			bool ok = false;
 			while (!ok) {
-				newVec = glm::vec3((rand() % 2000 - 1000) * METER, (rand() % 2000 - 1000) * METER, (rand() % 2000 - 1000) * METER);
+				newVec = glm::vec3((rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER, (rand() % 14000 - 7000) * METER);
 				ok = true;
 				for (int j = 0; j < planetVecs.size(); j++) {
-					if (glm::length(newVec - planetVecs[j]) < (20 * METER)) {
+					if ((glm::length(newVec - planetVecs[j]) < (200 * METER)) 
+						|| (abs(glm::length(planetVecs[j] - glm::vec3(0,0,0)) - glm::length(newVec - glm::vec3(0,0,0))) < 200*METER)){
 						ok = false;
 					}
 				}
@@ -319,7 +320,7 @@ void MouseInput() {
 void CameraInput() {
 	double moveSpeed;
 	if (glfwGetKey(mainThread, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-		moveSpeed = 50 * METER * deltaTime;
+		moveSpeed = 400 * METER * deltaTime;
 	}
 	else if (glfwGetKey(mainThread, GLFW_KEY_LEFT_ALT) == GLFW_PRESS) {
 		moveSpeed = 1 * METER * deltaTime;
