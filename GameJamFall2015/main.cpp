@@ -36,7 +36,8 @@ double wireframeTimer;
 std::vector<Object*> objects;
 
 Terrain* terrain;
-
+irrklang::ISoundEngine* engine;
+irrklang::ISound* music;
 void Terminate() {
 	glfwTerminate();
 	exit(0);
@@ -64,6 +65,17 @@ void ToggleWireFrame(){
 	}
 }
 void InitializeWindow() {
+	engine = irrklang::createIrrKlangDevice();
+	engine->setSoundVolume(1.0f);
+	music = engine->play3D("doodoodoo.mp3",
+		irrklang::vec3df(0, 0, 0), true, false, true);
+	if (music){
+	
+		music->setMinDistance(1.0f*KILOMETER);
+		music->setPosition(irrklang::vec3df(0, 0, 0));
+		music->setVolume(0.35f);
+	}
+
 	wireframeToggle = false;
 	seed = time(NULL);
 	runPhysics = false;
@@ -203,9 +215,12 @@ void Run() {
 		Object* terrainP = terrain;
 		objects.push_back(terrainP);
 
-		Alien* alien = new Alien(world, terrain,&camera);
-		Object* alienP = alien;
-		objects.push_back(alienP);
+		for (int i = 1; i < 25;i++){
+			int r = rand() % 7 + 1;
+			Alien* alien = new Alien(world, terrain, &camera, engine, r);
+			Object* alienP = alien;
+			objects.push_back(alienP);
+		}
 
 
 		std::vector<glm::vec3> planetVecs;
@@ -262,6 +277,8 @@ void Run() {
 			while (accumulator >= deltaTime) {
 
 				
+				engine->setListenerPosition(irrklang::vec3df(camera.position().x, camera.position().y, camera.position().x), irrklang::vec3df(camera.forward().x, camera.forward().y, camera.forward().x));
+	
 				MouseInput();//update mouse change
 				glfwPollEvents(); //executes all set input callbacks
 
@@ -289,7 +306,9 @@ void Run() {
 			glfwSwapBuffers(mainThread);
 	}
 
+		music->drop(); // release music stream.
 
+		engine->drop(); // delete engine
 
 	//cleanup
 		delete world;

@@ -1,8 +1,11 @@
 #include "Alien.h"
 
 
-Alien::Alien(btDiscreteDynamicsWorld* worldN,Terrain* terrianN,Camera* cameraN)
+Alien::Alien(btDiscreteDynamicsWorld* worldN, Terrain* terrianN, Camera* cameraN, irrklang::ISoundEngine* soundN, uint speciesN)
 {
+	species = speciesN;
+	timer = 0;
+	sound = soundN;
 	translate = glm::vec3(0, 0, 0);
 	rotate = glm::vec3(1.0f, 0.0f, 0.0f);
 	terrain = terrianN;
@@ -10,25 +13,75 @@ Alien::Alien(btDiscreteDynamicsWorld* worldN,Terrain* terrianN,Camera* cameraN)
 	camera = cameraN;
 	fragmentName = "fragment-shader[none].txt";
 	float height = 5.0f*METER;
-	GetVertices().push_back({ { -height / 4.0f, height, 0.0f }, { 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
-	GetVertices().push_back({ { height / 4.0f, height, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
-	GetVertices().push_back({ { -height / 4.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } });
-	GetVertices().push_back({ { height / 4.0f, 0.0f, 0.0f }, { 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } });
+	GetVertices().push_back({ { -height / 3.0f, height, 0.0f }, { 0.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
+	GetVertices().push_back({ { height / 3.0f, height, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f, 0.0f } });
+	GetVertices().push_back({ { -height / 3.0f, 0.0f, 0.0f }, { 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } });
+	GetVertices().push_back({ { height / 3.0f, 0.0f, 0.0f }, { 1.0f, 0.0f }, { 0.0f, 1.0f, 0.0f } });
 
 	GetIndices().push_back({ glm::uvec3(2, 0, 1)});
 	GetIndices().push_back({ glm::uvec3(2, 1, 3) });
 
 
-
-	textureName = "alien.png";
-
+	if (species == 1){
+		textureName = "alien.png";
+	}
+	else if (species == 2){
+		textureName = "alien2.png";
+	}
+	else if (species == 3){
+		textureName = "alien3.png";
+	}
+	else if (species == 4){
+		textureName = "alien4.png";
+	}
+	else if (species == 5){
+		textureName = "alien5.png";
+	}
+	else if (species == 6){
+		textureName = "alien6.png";
+	}
+	else if (species == 7){
+		textureName = "alien7.png";
+	}
 
 	shape = new btBoxShape(btVector3(0.1f*METER, 0.5f*METER, 0.1f*METER));
 
 	Load(); //loads drawing related stuff. Call after vertices/indices have been defined
 }
-void Alien::Update(double){
-
+void Alien::Update(double dt){
+	
+	timer += dt;
+	if (glm::distance(camera->position(),translate)<20.0f*METER){
+		if (timer > 5.0f){
+			char* filename="";
+			if (species == 1){
+				filename = "lisa.wav";
+			}
+			else if (species == 2){
+				filename = "ohmy.wav";
+			}
+			else if (species == 3){
+				filename = "nyehehe.mp3";
+			}
+			else if (species == 4){
+				filename = "ohmy.wav";
+			}
+			else if (species == 5){
+				filename = "ohmy.wav";
+			}
+			else if (species == 6){
+				filename = "ohmy.wav";
+			}
+			else if (species == 7){
+				filename = "ohmy.wav";
+			}
+			irrklang::ISound* s=sound->play3D(filename, irrklang::vec3df(translate.x, translate.y, translate.z), false, false, true);
+			s->setVolume(1.0f);
+			s->setMinDistance(1.0f*KILOMETER);
+			s->setPosition(irrklang::vec3df(0, 0, 0));
+			timer = 0;
+		}
+	}
 }
 glm::mat4 billboard(glm::vec3 position, glm::vec3 cameraPos, glm::vec3 cameraUp) {
 	glm::vec3 look = normalize(cameraPos - position);
